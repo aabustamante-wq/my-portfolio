@@ -16,13 +16,13 @@ const hobbies = [
 
   {
     title: "Travel & Hiking",
-    icon: Footprint,
+    icon: Plane,
     description: "Exploring parks, hiking trails, and new places.",
   },
   {
-    title: "Dancing",
-    icon: Activity,
-    description: "I enjoy dancing and expressing myself through different dance styles.",
+    title: "Reading",
+    icon: BookOpen,
+    description: "Sometimes I enjoy reading a book to refresh my mind through reading.",
   },
 ];
 
