@@ -2,10 +2,23 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
-  Card,CardContent,CardHeader,CardTitle, CardDescription,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
 } from "@/components/ui/card";
 import {
-  GraduationCap,Award,Camera, Music,BookOpen,Compass,ArrowRight,Code2,Sparkles, CheckCircle2,
+  GraduationCap,
+  Award,
+  Camera,
+  Music,
+  BookOpen,
+  Compass,
+  ArrowRight,
+  Code2,
+  Sparkles,
+  CheckCircle2,
 } from "lucide-react";
 
 const skills = [
@@ -75,7 +88,6 @@ export default function Home() {
     <main className="min-h-screen bg-background text-foreground px-4 py-12 md:px-8 lg:px-12 max-w-5xl mx-auto space-y-20">
       {/* Hero Section */}
       <section className="relative space-y-6 pt-6 pb-4">
-        {/* Decorative background glow */}
         <div className="absolute -top-10 -left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl -z-10 pointer-events-none" />
         
         <Badge variant="outline" className="px-3 py-1 gap-1.5 rounded-full border-primary/30 bg-primary/5 text-primary">
@@ -188,4 +200,19 @@ export default function Home() {
             return (
               <Card key={hobby.title} className="rounded-2xl transition-all duration-200 hover:-translate-y-1 hover:shadow-md hover:border-primary/40">
                 <CardHeader className="p-5 pb-2">
-                  <div className
+                  <div className="p-2.5 bg-primary/10 w-fit rounded-xl text-primary mb-2">
+                    <Icon className="h-5 w-5" />
+                  </div>
+                  <CardTitle className="text-lg font-semibold">{hobby.title}</CardTitle>
+                </CardHeader>
+                <CardContent className="p-5 pt-0">
+                  <p className="text-xs text-muted-foreground leading-relaxed">{hobby.description}</p>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+      </section>
+    </main>
+  );
+}
