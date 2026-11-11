@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Sparkles,
   ArrowRight,
@@ -133,6 +133,11 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<string>("home");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const [copiedField, setCopiedField] = useState<string | null>(null);
+  const [year, setYear] = useState<string>("2026");
+
+  useEffect(() => {
+    setYear(new Date().getFullYear().toString());
+  }, []);
 
   // Form State
   const [formData, setFormData] = useState({
@@ -668,7 +673,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="border-t border-neutral-200 bg-neutral-50 py-6 text-center text-xs text-neutral-500">
         <div className="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p>© {new Date().getFullYear()} Aaron Bustamante. All rights reserved.</p>
+          <p>© {year} Aaron Bustamante. All rights reserved.</p>
           <p className="text-neutral-400">
             Built with Next.js, Tailwind CSS &amp; Shadcn UI design.
           </p>
