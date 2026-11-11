@@ -1,78 +1,53 @@
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import React, { useState, useEffect } from "react";
 import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/ui/card";
-
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuList,
-} from "@/components/ui/navigation-menu";
-
-import {
+  Sparkles,
+  ArrowRight,
   GraduationCap,
   Award,
-  Camera,
+  Film,
+  Gamepad2,
   Music,
-  BookOpen,
-  ArrowRight,
-  Code2,
-  Sparkles,
-  CheckCircle2,
-  Mail,
+  Trophy,
   Plane,
+  BookOpen,
+  Mail,
+  Phone,
+  MapPin,
+  Send,
+  Code2,
+  CheckCircle2,
+  Menu,
+  X,
+  Copy,
+  Check,
+  Bookmark,
+  ChevronRight,
 } from "lucide-react";
 
-// Navigation Bar
-function Navbar() {
-  const navItems = [
-    { name: "Home", href: "#home" },
-    { name: "About", href: "#about" },
-    { name: "Education", href: "#education" },
-    { name: "Hobbies", href: "#hobbies" },
-    { name: "Contact", href: "#contact" },
-  ];
+// Navigation Items
+const NAV_ITEMS = [
+  { name: "Home", href: "#home", id: "home" },
+  { name: "About", href: "#about", id: "about" },
+  { name: "Education", href: "#education", id: "education" },
+  { name: "Hobbies", href: "#hobbies", id: "hobbies" },
+  { name: "Contact", href: "#contact", id: "contact" },
+];
 
-  return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
-      <div className="flex h-20 items-center justify-center px-4">
-        <NavigationMenu>
-          <NavigationMenuList className="flex flex-wrap justify-center gap-2">
-            {navItems.map((item) => (
-              <NavigationMenuItem key={item.name}>
-                <Link
-                  href={item.href}
-                  className="rounded-full px-4 py-2 text-sm font-medium transition-all text-foreground hover:bg-muted"
-                >
-                  {item.name}
-                </Link>
-              </NavigationMenuItem>
-            ))}
-          </NavigationMenuList>
-        </NavigationMenu>
-      </div>
-    </header>
-  );
-}
-
-// Data Sets
-const skills = [
+// Technical & Soft Skills
+const SKILLS = [
   "Networking Fundamentals",
   "Hardware Troubleshooting",
   "Python Programming",
-  "Git & Version Control",
   "Web Development",
-  "Database Management",
+  "Communication Skills",
+  "Continuous Learning & Adaptability",
+  "SQL / Databases",
+  "Shadcn UI & Tailwind CSS",
 ];
 
-const educationList = [
-  {
+// Education Background
+const EDUCATION_LIST = [
+ {
     degree: "BS in Information Technology",
     institution: "Naga College Foundation",
     period: "2025 - Present",
@@ -102,275 +77,512 @@ const educationList = [
   },
 ];
 
-const hobbies = [
+// Hobbies & Interests
+const HOBBIES = [
   {
     title: "Photography",
     icon: Camera,
-    description: "Capturing street landscapes and urban architecture.",
+    description: "I am an active member of SOCCOM in our parish. I enjoy participating in church activities, helping with events, serving the community, taking photos, and spending time with friends. I also love learning new things, exploring technology, and improving my skills.",
+  },
+
+  {
+    title: "Music & Guitar",
+    icon: Music,
+    description: "I enjoy playing the acoustic guitar and singing as a member of the church choir.",
+  },
+
+  {
+    title: "Travel & Hiking",
+    icon: Plane,
+    description: "Exploring parks, hiking trails, and new places.",
   },
   {
     title: "Reading",
     icon: BookOpen,
-    description: "Enjoy reading books to expand perspectives and refresh the mind.",
-  },
-  {
-    title: "Music & Guitar",
-    icon: Music,
-    description: "Playing acoustic guitar and singing as a member of the church choir.",
-  },
-  {
-    title: "Travel & Hiking",
-    icon: Plane,
-    description: "Exploring national parks, hiking trails, and new places.",
+    description: "Sometimes I enjoy reading a book to refresh my mind through reading.",
   },
 ];
 
-export default function Home() {
+export default function App() {
+  const [activeTab, setActiveTab] = useState("home");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [copiedField, setCopiedField] = useState(null);
+
+  // Form State
+  const [formData, setFormData] = useState({
+    name: "Aaron A. Bustamante",
+    email: "aabustamante@gbox.ncf.edu.ph",
+    subject: "Project Inquiry / Hello",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
+
+  const handleCopy = (text, field) => {
+    navigator.clipboard.writeText(text);
+    setCopiedField(field);
+    setTimeout(() => setCopiedField(null), 2000);
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    if (!formData.name || !formData.email || !formData.message) {
+      setSubmitStatus({ type: "error", msg: "Please fill out all required fields." });
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    // Simulate API request
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setSubmitStatus({
+        type: "success",
+        msg: "Thank you! Your message has been sent successfully. I will get back to you soon.",
+      });
+      setFormData((prev) => ({ ...prev, message: "" }));
+    }, 1200);
+  };
+
   return (
-    <>
-      {/* Navigation */}
-      <Navbar />
-
-      <main className="min-h-screen bg-background text-foreground px-4 py-12 md:px-8 lg:px-12 max-w-5xl mx-auto space-y-24 scroll-smooth">
-        {/* 1. HOME SECTION (Welcome Only) */}
-        <section id="home" className="relative space-y-6 pt-6 pb-4 scroll-mt-28">
-          <div className="absolute -top-10 -left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl -z-10 pointer-events-none" />
-
-          <Badge
-            variant="outline"
-            className="px-3 py-1 gap-1.5 rounded-full border-primary/30 bg-primary/5 text-primary"
+    <div className="min-h-screen bg-white text-neutral-900 font-sans antialiased selection:bg-neutral-900 selection:text-white flex flex-col justify-between">
+      {/* Sticky Header / Navigation */}
+      <header className="sticky top-0 z-50 w-full border-b border-neutral-200/80 bg-white/90 backdrop-blur-md transition-all">
+        <div className="flex h-16 items-center justify-between px-4 md:px-8 max-w-5xl mx-auto">
+          {/* Brand Logo / Name */}
+          <button
+            onClick={() => setActiveTab("home")}
+            className="text-lg font-extrabold tracking-tight text-neutral-900 flex items-center gap-2 hover:opacity-80 transition-opacity focus:outline-none cursor-pointer"
           >
-            <Sparkles className="w-3.5 h-3.5" />
-            2nd-Year IT Student
-          </Badge>
+            <span className="w-2.5 h-2.5 rounded-full bg-neutral-900 inline-block animate-pulse" />
+            Aaron Bustamante
+          </button>
 
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight">
-            Welcome to My Portfolio!
-          </h1>
-
-          <h2 className="text-2xl sm:text-3xl font-bold text-muted-foreground">
-            Hi, I'm{" "}
-            <span className="text-primary bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-              Aaron Bustamante
-            </span>{" "}
-            👋
-          </h2>
-
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed">
-            Welcome to my personal portfolio! I am currently studying IT at Naga College Foundation.
-            I build practical web applications, study software development, and refine my coding skills to
-            become a professional software developer.
-          </p>
-
-          <div className="pt-2">
-            <Button
-              asChild
-              size="lg"
-              className="rounded-full shadow-md hover:shadow-lg transition-all"
-            >
-              <Link href="#about">
-                About Me
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-        </section>
-
-        {/* 2. ABOUT SECTION (About Me & Skills Only) */}
-        <section id="about" className="space-y-6 scroll-mt-28">
-          <div className="space-y-1">
-            <h2 className="text-3xl font-bold tracking-tight">About Me</h2>
-            <p className="text-sm text-muted-foreground">
-              A bit about my background, passion, and technical skills.
-            </p>
-          </div>
-
-          <div className="space-y-4">
-            {/* My Story Card */}
-            <Card className="rounded-2xl border bg-card p-6 shadow-sm">
-              <CardHeader className="p-0 pb-3">
-                <CardTitle className="text-xl font-bold">My Story</CardTitle>
-              </CardHeader>
-              <CardContent className="p-0 text-muted-foreground leading-relaxed">
-                <p>
-                  I am an Information Technology student passionate about learning new programming languages,
-                  building modern web applications, and developing practical technology solutions.
-                  I enjoy solving problems through code and continuously improving my technical literacy.
-                </p>
-              </CardContent>
-            </Card>
-
-            {/* Skills Card */}
-            <Card className="rounded-2xl border bg-card p-6 shadow-sm">
-              <CardHeader className="p-0 pb-3">
-                <div className="flex items-center gap-2">
-                  <Code2 className="h-5 w-5 text-primary" />
-                  <CardTitle className="text-xl font-bold">Skills & Technologies</CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent className="p-0">
-                <div className="flex flex-wrap gap-2.5">
-                  {skills.map((skill, index) => (
-                    <Badge
-                      key={index}
-                      variant="secondary"
-                      className="px-3.5 py-1.5 text-sm font-medium rounded-xl hover:bg-primary hover:text-primary-foreground transition-all cursor-default"
-                    >
-                      {skill}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </section>
-
-        {/* 3. EDUCATION SECTION (Education Only) */}
-        <section id="education" className="space-y-6 scroll-mt-28">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <GraduationCap className="h-6 w-6 text-primary" />
-              <h2 className="text-3xl font-bold tracking-tight">Education</h2>
-            </div>
-            <p className="text-sm text-muted-foreground">
-              Academic background and formal training.
-            </p>
-          </div>
-
-          <div className="space-y-4">
-            {educationList.map((item, idx) => (
-              <Card
-                key={idx}
-                className="rounded-2xl transition-all duration-200 hover:border-primary/40 hover:shadow-md"
-              >
-                <CardHeader className="pb-3">
-                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-2">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2.5 bg-primary/10 rounded-xl text-primary shrink-0">
-                        <GraduationCap className="h-5 w-5" />
-                      </div>
-
-                      <div>
-                        <CardTitle className="text-xl font-bold">
-                          {item.degree}
-                        </CardTitle>
-                        <CardDescription className="text-muted-foreground font-medium">
-                          {item.institution}
-                        </CardDescription>
-                      </div>
-                    </div>
-
-                    <Badge
-                      variant="outline"
-                      className="w-fit text-xs font-semibold px-3 py-1 rounded-full"
-                    >
-                      {item.period}
-                    </Badge>
-                  </div>
-                </CardHeader>
-
-                <CardContent className="space-y-4 text-sm">
-                  <p className="text-muted-foreground leading-relaxed">
-                    {item.description}
-                  </p>
-
-                  <div className="pt-2 border-t border-border/50">
-                    <h3 className="text-xs font-semibold text-foreground uppercase tracking-wider flex items-center gap-1.5 mb-2">
-                      <Award className="h-4 w-4 text-primary" />
-                      Key Highlights
-                    </h3>
-
-                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-muted-foreground">
-                      {item.achievements.map((ach, i) => (
-                        <li key={i} className="flex items-center gap-2">
-                          <CheckCircle2 className="h-3.5 w-3.5 text-primary shrink-0" />
-                          <span>{ach}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
-
-        {/* 4. HOBBIES SECTION (Hobbies Only) */}
-        <section id="hobbies" className="space-y-6 scroll-mt-28">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <Sparkles className="h-6 w-6 text-primary" />
-              <h2 className="text-3xl font-bold tracking-tight">
-                Hobbies & Interests
-              </h2>
-            </div>
-            <p className="text-sm text-muted-foreground">
-              What I enjoy doing outside of coding.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {hobbies.map((hobby) => {
-              const Icon = hobby.icon;
-
+          {/* Desktop Navigation Menu Bar */}
+          <nav className="hidden md:flex items-center gap-1 bg-neutral-100/70 p-1 rounded-full border border-neutral-200/60">
+            {NAV_ITEMS.map((item) => {
+              const isActive = activeTab === item.id;
               return (
-                <Card
-                  key={hobby.title}
-                  className="rounded-2xl transition-all duration-200 hover:-translate-y-1 hover:shadow-md hover:border-primary/40"
+                <button
+                  key={item.name}
+                  onClick={() => setActiveTab(item.id)}
+                  className={`px-4 py-1.5 text-xs font-semibold rounded-full transition-all duration-200 focus:outline-none cursor-pointer ${
+                    isActive
+                      ? "bg-neutral-900 text-white shadow-xs scale-105"
+                      : "text-neutral-600 hover:text-neutral-900 hover:bg-neutral-200/60"
+                  }`}
                 >
-                  <CardHeader className="p-5 pb-2">
-                    <div className="p-2.5 bg-primary/10 w-fit rounded-xl text-primary mb-2">
-                      <Icon className="h-5 w-5" />
-                    </div>
+                  {item.name}
+                </button>
+              );
+            })}
+          </nav>
 
-                    <CardTitle className="text-lg font-semibold">
-                      {hobby.title}
-                    </CardTitle>
-                  </CardHeader>
+          {/* Mobile Menu Toggle Button */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden p-2 rounded-xl text-neutral-700 hover:bg-neutral-100 focus:outline-none cursor-pointer"
+            aria-label="Toggle navigation"
+          >
+            {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
 
-                  <CardContent className="p-5 pt-0">
-                    <p className="text-xs text-muted-foreground leading-relaxed">
-                      {hobby.description}
-                    </p>
-                  </CardContent>
-                </Card>
+        {/* Mobile Navigation Drawer */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden border-t border-neutral-200 bg-white px-4 py-3 space-y-1 shadow-lg animate-in slide-in-from-top-2">
+            {NAV_ITEMS.map((item) => {
+              const isActive = activeTab === item.id;
+              return (
+                <button
+                  key={item.name}
+                  onClick={() => {
+                    setActiveTab(item.id);
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className={`block w-full text-left px-4 py-2 text-sm font-medium rounded-xl transition-colors cursor-pointer ${
+                    isActive
+                      ? "bg-neutral-900 text-white font-semibold"
+                      : "text-neutral-700 hover:bg-neutral-100"
+                  }`}
+                >
+                  {item.name}
+                </button>
               );
             })}
           </div>
-        </section>
+        )}
+      </header>
 
-        {/* 5. CONTACT SECTION (Contact Only) */}
-        <section id="contact" className="space-y-6 scroll-mt-28 pb-12">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <Mail className="h-6 w-6 text-primary" />
-              <h2 className="text-3xl font-bold tracking-tight">
-                Contact Me
-              </h2>
-            </div>
-            <p className="text-sm text-muted-foreground">
-              Reach out for collaboration, opportunities, or questions!
-            </p>
-          </div>
+      {/* Main Content Area - Render ONLY active section */}
+      <main className="flex-1 max-w-5xl w-full mx-auto px-4 md:px-8 py-8 md:py-12">
+        <div key={activeTab} className="animate-in fade-in zoom-in-95 duration-300 ease-out">
+          {/* ================= TAB 1: HOME ================= */}
+          {activeTab === "home" && (
+            <section className="space-y-6 pt-4 md:pt-12 min-h-[55vh] flex flex-col justify-center">
+              <div className="space-y-4">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-neutral-100 text-neutral-800 border border-neutral-200">
+                  <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                  <span>2nd-Year IT Student</span>
+                </div>
 
-          <Card className="rounded-2xl">
-            <CardContent className="p-6 space-y-4">
-              <p className="text-muted-foreground leading-relaxed">
-                Thank you for visiting my personal portfolio!
-                Feel free to contact me for collaboration,
-                opportunities, or questions.
-              </p>
+                <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-neutral-900 leading-tight">
+                  Welcome to My Portfolio!
+                </h1>
 
-              <Button asChild className="rounded-full">
-                <a href="mailto:your-email@example.com">
-                  <Mail className="mr-2 h-4 w-4" />
-                  Send Me an Email
-                </a>
-              </Button>
-            </CardContent>
-          </Card>
-        </section>
+                <h2 className="text-2xl sm:text-3xl font-bold text-neutral-800 flex items-center gap-2">
+                  Hello I'm Aaron A. Bustamante. <span className="inline-block animate-bounce">👋</span>
+                </h2>
+
+                <p className="text-base sm:text-lg text-neutral-600 max-w-2xl leading-relaxed">
+                  An aspiring Cybersecurity Analyst who is continuously learning, improving my skills, and adapting to the fast-changing digital world.
+                </p>
+              </div>
+
+              <div className="pt-4 flex items-center gap-3">
+                <button
+                  onClick={() => setActiveTab("about")}
+                  className="inline-flex items-center justify-center bg-neutral-900 hover:bg-neutral-800 text-white px-6 py-3 rounded-xl text-sm font-medium transition-all shadow-xs hover:shadow-md group focus:outline-none cursor-pointer"
+                >
+                  <span>About Me</span>
+                  <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </button>
+
+                <button
+                  onClick={() => setActiveTab("contact")}
+                  className="inline-flex items-center justify-center border border-neutral-300 hover:bg-neutral-100 text-neutral-800 px-6 py-3 rounded-xl text-sm font-medium transition-all focus:outline-none cursor-pointer"
+                >
+                  <span>Get in Touch</span>
+                </button>
+              </div>
+            </section>
+          )}
+
+          {/* ================= TAB 2: ABOUT ME ================= */}
+          {activeTab === "about" && (
+            <section className="space-y-6">
+              <div className="space-y-1 border-b border-neutral-100 pb-4">
+                <h2 className="text-3xl font-extrabold tracking-tight text-neutral-900">About Me</h2>
+                <p className="text-sm text-neutral-500">
+                  A bit about my background, passion, and technical skills.
+                </p>
+              </div>
+
+              <div className="space-y-4 max-w-3xl">
+                {/* My Story Card */}
+                <div className="rounded-2xl border border-neutral-200/80 bg-white p-6 shadow-xs hover:border-neutral-300 transition-colors">
+                  <h3 className="text-lg font-bold text-neutral-900 mb-3 flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-neutral-900" />
+                    My Story
+                  </h3>
+                  <div className="text-sm text-neutral-600 leading-relaxed space-y-4">
+                    <p>
+                      Currently, I am focused on improving my programming skills, learning new technologies, and developing websites and applications. My career goal is to become a professional software developer and build useful, innovative systems.
+                    </p>
+                    <p>
+                      Aside from my studies, I am currently focused on learning programming and improving my skills in web development. My goal is to become a successful software developer.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Skills & Technologies Card */}
+                <div className="rounded-2xl border border-neutral-200/80 bg-white p-6 shadow-xs hover:border-neutral-300 transition-colors space-y-3">
+                  <div className="flex items-center gap-2">
+                    <Code2 className="h-5 w-5 text-neutral-900" />
+                    <h3 className="text-lg font-bold text-neutral-900">Skills & Technologies</h3>
+                  </div>
+                  <div className="flex flex-wrap gap-2 pt-1">
+                    {SKILLS.map((skill, index) => (
+                      <span
+                        key={index}
+                        className="inline-flex items-center bg-neutral-100 hover:bg-neutral-200 text-neutral-800 text-xs font-medium px-3.5 py-1.5 rounded-xl transition-colors cursor-default border border-neutral-200/60"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
+
+          {/* ================= TAB 3: EDUCATION ================= */}
+          {activeTab === "education" && (
+            <section className="space-y-6">
+              <div className="space-y-1 border-b border-neutral-100 pb-4">
+                <h2 className="text-3xl font-extrabold tracking-tight text-neutral-900">Education</h2>
+                <p className="text-sm text-neutral-500">
+                  Academic background and formal training.
+                </p>
+              </div>
+
+              <div className="space-y-4 max-w-3xl">
+                {EDUCATION_LIST.map((item, idx) => (
+                  <div
+                    key={idx}
+                    className="rounded-2xl border border-neutral-200/80 bg-white p-6 shadow-xs hover:border-neutral-300 transition-colors space-y-3"
+                  >
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                      <div className="flex items-start gap-3.5">
+                        <div className="p-2.5 bg-neutral-100 rounded-xl text-neutral-900 shrink-0 border border-neutral-200/60">
+                          <GraduationCap className="h-5 w-5" />
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-bold text-neutral-900">{item.degree}</h3>
+                          <p className="text-xs text-neutral-500 font-medium">{item.institution}</p>
+                          {item.subtitle && (
+                            <p className="text-xs text-neutral-700 font-medium mt-0.5">{item.subtitle}</p>
+                          )}
+                        </div>
+                      </div>
+                      <span className="inline-block text-xs font-semibold px-3 py-1 rounded-full bg-neutral-100 text-neutral-700 border border-neutral-200 self-start sm:self-auto">
+                        {item.period}
+                      </span>
+                    </div>
+
+                    {item.description && (
+                      <p className="text-sm text-neutral-600 leading-relaxed pt-1 sm:pl-[48px]">
+                        {item.description}
+                      </p>
+                    )}
+
+                    {item.highlights && item.highlights.length > 0 && (
+                      <div className="pt-2 sm:pl-[48px] border-t border-neutral-100">
+                        <div className="flex items-center gap-1.5 text-xs font-semibold text-neutral-900 mb-1.5">
+                          <Bookmark className="h-3.5 w-3.5 text-neutral-700" />
+                          <span>Key Highlights</span>
+                        </div>
+                        <ul className="flex flex-wrap gap-2 text-xs text-neutral-600">
+                          {item.highlights.map((h, i) => (
+                            <li
+                              key={i}
+                              className="flex items-center gap-1 bg-neutral-50 border border-neutral-200 px-2.5 py-1 rounded-lg text-neutral-700"
+                            >
+                              <CheckCircle2 className="h-3 w-3 text-emerald-600 shrink-0" />
+                              <span>{h}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* ================= TAB 4: HOBBIES ================= */}
+          {activeTab === "hobbies" && (
+            <section className="space-y-6">
+              <div className="space-y-1 border-b border-neutral-100 pb-4">
+                <h2 className="text-3xl font-extrabold tracking-tight text-neutral-900">Hobbies & Interests</h2>
+                <p className="text-sm text-neutral-500">
+                  What I enjoy doing outside of coding.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {HOBBIES.map((hobby) => {
+                  const Icon = hobby.icon;
+                  return (
+                    <div
+                      key={hobby.title}
+                      className="rounded-2xl border border-neutral-200/80 bg-white p-5 space-y-3 hover:border-neutral-300 hover:shadow-xs transition-all duration-200 flex flex-col justify-between"
+                    >
+                      <div className="p-2.5 bg-neutral-100 w-fit rounded-xl text-neutral-900 border border-neutral-200/60">
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <div className="space-y-1">
+                        <h3 className="text-base font-bold text-neutral-900">{hobby.title}</h3>
+                        <p className="text-xs text-neutral-500 leading-relaxed">
+                          {hobby.description}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
+          )}
+
+          {/* ================= TAB 5: CONTACT ================= */}
+          {activeTab === "contact" && (
+            <section className="space-y-6">
+              <div className="space-y-1 border-b border-neutral-100 pb-4">
+                <h2 className="text-3xl font-extrabold tracking-tight text-neutral-900">Contact Me</h2>
+                <p className="text-sm text-neutral-500">
+                  Have a question, collaboration idea, or project in mind? Reach out below!
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+                {/* Left Column - Contact Details */}
+                <div className="space-y-3 md:col-span-1">
+                  <div className="rounded-2xl border border-neutral-200/80 bg-white p-4 flex items-center justify-between hover:border-neutral-300 transition-colors">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-neutral-100 rounded-xl text-neutral-900 border border-neutral-200/60">
+                        <Mail className="h-4 w-4" />
+                      </div>
+                      <div>
+                        <p className="text-[10px] text-neutral-400 font-semibold uppercase tracking-wider">Email</p>
+                        <p className="text-xs font-bold text-neutral-900 truncate max-w-[170px]">
+                          aabustamante@gbox.ncf.edu.ph
+                        </p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => handleCopy("aabustamante@gbox.ncf.edu.ph", "email")}
+                      className="p-1.5 text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition-colors cursor-pointer"
+                      title="Copy email"
+                    >
+                      {copiedField === "email" ? (
+                        <Check className="h-3.5 w-3.5 text-emerald-600" />
+                      ) : (
+                        <Copy className="h-3.5 w-3.5" />
+                      )}
+                    </button>
+                  </div>
+
+                  <div className="rounded-2xl border border-neutral-200/80 bg-white p-4 flex items-center justify-between hover:border-neutral-300 transition-colors">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-neutral-100 rounded-xl text-neutral-900 border border-neutral-200/60">
+                        <Phone className="h-4 w-4" />
+                      </div>
+                      <div>
+                        <p className="text-[10px] text-neutral-400 font-semibold uppercase tracking-wider">Phone</p>
+                        <p className="text-xs font-bold text-neutral-900">+639 (810) 441-731</p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => handleCopy("+639 (635) 002-193", "phone")}
+                      className="p-1.5 text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition-colors cursor-pointer"
+                      title="Copy phone"
+                    >
+                      {copiedField === "phone" ? (
+                        <Check className="h-3.5 w-3.5 text-emerald-600" />
+                      ) : (
+                        <Copy className="h-3.5 w-3.5" />
+                      )}
+                    </button>
+                  </div>
+
+                  <div className="rounded-2xl border border-neutral-200/80 bg-white p-4 flex items-center gap-3 hover:border-neutral-300 transition-colors">
+                    <div className="p-2 bg-neutral-100 rounded-xl text-neutral-900 border border-neutral-200/60">
+                      <MapPin className="h-4 w-4" />
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-neutral-400 font-semibold uppercase tracking-wider">Location</p>
+                      <p className="text-xs font-bold text-neutral-900 leading-snug">
+                        Cagliliog, Tinambac, Camarines Sur, Philippines
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right Column - Interactive Form Card */}
+                <div className="md:col-span-2 rounded-2xl border border-neutral-200/80 bg-white p-6 shadow-xs">
+                  <div className="pb-4 mb-4 border-b border-neutral-100">
+                    <h3 className="text-base font-bold text-neutral-900">Send a Message</h3>
+                    <p className="text-xs text-neutral-500 mt-0.5">
+                      Fill out the form below and I'll get back to you soon.
+                    </p>
+                  </div>
+
+                  {submitStatus && (
+                    <div
+                      className={`p-3 mb-4 rounded-xl text-xs flex items-center gap-2 ${
+                        submitStatus.type === "success"
+                          ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
+                          : "bg-rose-50 text-rose-800 border border-rose-200"
+                      }`}
+                    >
+                      <CheckCircle2 className="h-4 w-4 shrink-0" />
+                      <span>{submitStatus.msg}</span>
+                    </div>
+                  )}
+
+                  <form onSubmit={handleFormSubmit} className="space-y-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-semibold text-neutral-900">
+                          Name
+                        </label>
+                        <input
+                          type="text"
+                          value={formData.name}
+                          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                          placeholder="Your full name"
+                          className="w-full px-3.5 py-2 text-xs rounded-xl border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-neutral-900 transition-all"
+                          required
+                        />
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-semibold text-neutral-900">
+                          Email
+                        </label>
+                        <input
+                          type="email"
+                          value={formData.email}
+                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                          placeholder="jpconer@gbox.ncf.edu.ph"
+                          className="w-full px-3.5 py-2 text-xs rounded-xl border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-neutral-900 transition-all"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-semibold text-neutral-900">
+                        Subject
+                      </label>
+                      <input
+                        type="text"
+                        value={formData.subject}
+                        onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                        placeholder="Project Inquiry / Hello"
+                        className="w-full px-3.5 py-2 text-xs rounded-xl border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-neutral-900 transition-all"
+                      />
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-semibold text-neutral-900">
+                        Message
+                      </label>
+                      <textarea
+                        rows={4}
+                        value={formData.message}
+                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                        placeholder="Your message here..."
+                        className="w-full px-3.5 py-2 text-xs rounded-xl border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-neutral-900 transition-all resize-none"
+                        required
+                      />
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl text-xs font-semibold px-5 py-2.5 flex items-center gap-2 transition-all disabled:opacity-50 cursor-pointer"
+                    >
+                      <Send className="h-3.5 w-3.5" />
+                      <span>{isSubmitting ? "Sending..." : "Send Message"}</span>
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </section>
+          )}
+        </div>
       </main>
-    </>
+
+      {/* Footer */}
+      <footer className="border-t border-neutral-200 bg-neutral-50 py-6 text-center text-xs text-neutral-500">
+        <div className="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+          <p>© {new Date().getFullYear()} Aaron Bustamante. All rights reserved.</p>
+          <p className="text-neutral-400">Built with Next.js, Tailwind CSS & Shadcn UI design.</p>
+        </div>
+      </footer>
+    </div>
   );
 }
