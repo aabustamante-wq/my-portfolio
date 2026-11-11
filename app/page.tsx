@@ -1,15 +1,12 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Sparkles,
   ArrowRight,
   GraduationCap,
-  Award,
-  Film,
-  Gamepad2,
+  Camera,
   Music,
-  Trophy,
   Plane,
   BookOpen,
   Mail,
@@ -23,11 +20,37 @@ import {
   Copy,
   Check,
   Bookmark,
-  ChevronRight,
+  LucideIcon,
 } from "lucide-react";
 
+// Types & Interfaces
+interface NavItem {
+  name: string;
+  href: string;
+  id: string;
+}
+
+interface EducationItem {
+  degree: string;
+  institution: string;
+  period: string;
+  description: string;
+  achievements: string[];
+}
+
+interface HobbyItem {
+  title: string;
+  icon: LucideIcon;
+  description: string;
+}
+
+interface SubmitStatus {
+  type: "success" | "error";
+  msg: string;
+}
+
 // Navigation Items
-const NAV_ITEMS = [
+const NAV_ITEMS: NavItem[] = [
   { name: "Home", href: "#home", id: "home" },
   { name: "About", href: "#about", id: "about" },
   { name: "Education", href: "#education", id: "education" },
@@ -36,7 +59,7 @@ const NAV_ITEMS = [
 ];
 
 // Technical & Soft Skills
-const SKILLS = [
+const SKILLS: string[] = [
   "Networking Fundamentals",
   "Hardware Troubleshooting",
   "Python Programming",
@@ -48,8 +71,8 @@ const SKILLS = [
 ];
 
 // Education Background
-const EDUCATION_LIST = [
- {
+const EDUCATION_LIST: EducationItem[] = [
+  {
     degree: "BS in Information Technology",
     institution: "Naga College Foundation",
     period: "2025 - Present",
@@ -80,19 +103,19 @@ const EDUCATION_LIST = [
 ];
 
 // Hobbies & Interests
-const HOBBIES = [
+const HOBBIES: HobbyItem[] = [
   {
     title: "Photography",
     icon: Camera,
-    description: "I am an active member of SOCCOM in our parish. I enjoy participating in church activities, helping with events, serving the community, taking photos, and spending time with friends. I also love learning new things, exploring technology, and improving my skills.",
+    description:
+      "I am an active member of SOCCOM in our parish. I enjoy participating in church activities, helping with events, serving the community, taking photos, and spending time with friends. I also love learning new things, exploring technology, and improving my skills.",
   },
-
   {
     title: "Music & Guitar",
     icon: Music,
-    description: "I enjoy playing the acoustic guitar and singing as a member of the church choir.",
+    description:
+      "I enjoy playing the acoustic guitar and singing as a member of the church choir.",
   },
-
   {
     title: "Travel & Hiking",
     icon: Plane,
@@ -101,14 +124,15 @@ const HOBBIES = [
   {
     title: "Reading",
     icon: BookOpen,
-    description: "Sometimes I enjoy reading a book to refresh my mind through reading.",
+    description:
+      "Sometimes I enjoy reading a book to refresh my mind through reading.",
   },
 ];
 
-export default function App() {
-  const [activeTab, setActiveTab] = useState("home");
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [copiedField, setCopiedField] = useState(null);
+export default function Home() {
+  const [activeTab, setActiveTab] = useState<string>("home");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
+  const [copiedField, setCopiedField] = useState<string | null>(null);
 
   // Form State
   const [formData, setFormData] = useState({
@@ -117,26 +141,28 @@ export default function App() {
     subject: "Project Inquiry / Hello",
     message: "",
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [submitStatus, setSubmitStatus] = useState<SubmitStatus | null>(null);
 
-  const handleCopy = (text, field) => {
+  const handleCopy = (text: string, field: string) => {
     navigator.clipboard.writeText(text);
     setCopiedField(field);
     setTimeout(() => setCopiedField(null), 2000);
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) {
-      setSubmitStatus({ type: "error", msg: "Please fill out all required fields." });
+      setSubmitStatus({
+        type: "error",
+        msg: "Please fill out all required fields.",
+      });
       return;
     }
 
     setIsSubmitting(true);
     setSubmitStatus(null);
 
-    // Simulate API request
     setTimeout(() => {
       setIsSubmitting(false);
       setSubmitStatus({
@@ -154,6 +180,7 @@ export default function App() {
         <div className="flex h-16 items-center justify-between px-4 md:px-8 max-w-5xl mx-auto">
           {/* Brand Logo / Name */}
           <button
+            type="button"
             onClick={() => setActiveTab("home")}
             className="text-lg font-extrabold tracking-tight text-neutral-900 flex items-center gap-2 hover:opacity-80 transition-opacity focus:outline-none cursor-pointer"
           >
@@ -167,6 +194,7 @@ export default function App() {
               const isActive = activeTab === item.id;
               return (
                 <button
+                  type="button"
                   key={item.name}
                   onClick={() => setActiveTab(item.id)}
                   className={`px-4 py-1.5 text-xs font-semibold rounded-full transition-all duration-200 focus:outline-none cursor-pointer ${
@@ -183,11 +211,16 @@ export default function App() {
 
           {/* Mobile Menu Toggle Button */}
           <button
+            type="button"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="md:hidden p-2 rounded-xl text-neutral-700 hover:bg-neutral-100 focus:outline-none cursor-pointer"
             aria-label="Toggle navigation"
           >
-            {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {isMobileMenuOpen ? (
+              <X className="h-5 w-5" />
+            ) : (
+              <Menu className="h-5 w-5" />
+            )}
           </button>
         </div>
 
@@ -198,6 +231,7 @@ export default function App() {
               const isActive = activeTab === item.id;
               return (
                 <button
+                  type="button"
                   key={item.name}
                   onClick={() => {
                     setActiveTab(item.id);
@@ -217,10 +251,13 @@ export default function App() {
         )}
       </header>
 
-      {/* Main Content Area - Render ONLY active section */}
+      {/* Main Content Area */}
       <main className="flex-1 max-w-5xl w-full mx-auto px-4 md:px-8 py-8 md:py-12">
-        <div key={activeTab} className="animate-in fade-in zoom-in-95 duration-300 ease-out">
-          {/* ================= TAB 1: HOME ================= */}
+        <div
+          key={activeTab}
+          className="animate-in fade-in zoom-in-95 duration-300 ease-out"
+        >
+          {/* TAB 1: HOME */}
           {activeTab === "home" && (
             <section className="space-y-6 pt-4 md:pt-12 min-h-[55vh] flex flex-col justify-center">
               <div className="space-y-4">
@@ -234,16 +271,20 @@ export default function App() {
                 </h1>
 
                 <h2 className="text-2xl sm:text-3xl font-bold text-neutral-800 flex items-center gap-2">
-                  Hello I'm Aaron A. Bustamante. <span className="inline-block animate-bounce">👋</span>
+                  Hello I&apos;m Aaron A. Bustamante.{" "}
+                  <span className="inline-block animate-bounce">👋</span>
                 </h2>
 
                 <p className="text-base sm:text-lg text-neutral-600 max-w-2xl leading-relaxed">
-                  An aspiring Cybersecurity Analyst who is continuously learning, improving my skills, and adapting to the fast-changing digital world.
+                  An aspiring Cybersecurity Analyst who is continuously
+                  learning, improving my skills, and adapting to the
+                  fast-changing digital world.
                 </p>
               </div>
 
               <div className="pt-4 flex items-center gap-3">
                 <button
+                  type="button"
                   onClick={() => setActiveTab("about")}
                   className="inline-flex items-center justify-center bg-neutral-900 hover:bg-neutral-800 text-white px-6 py-3 rounded-xl text-sm font-medium transition-all shadow-xs hover:shadow-md group focus:outline-none cursor-pointer"
                 >
@@ -252,6 +293,7 @@ export default function App() {
                 </button>
 
                 <button
+                  type="button"
                   onClick={() => setActiveTab("contact")}
                   className="inline-flex items-center justify-center border border-neutral-300 hover:bg-neutral-100 text-neutral-800 px-6 py-3 rounded-xl text-sm font-medium transition-all focus:outline-none cursor-pointer"
                 >
@@ -261,11 +303,13 @@ export default function App() {
             </section>
           )}
 
-          {/* ================= TAB 2: ABOUT ME ================= */}
+          {/* TAB 2: ABOUT ME */}
           {activeTab === "about" && (
             <section className="space-y-6">
               <div className="space-y-1 border-b border-neutral-100 pb-4">
-                <h2 className="text-3xl font-extrabold tracking-tight text-neutral-900">About Me</h2>
+                <h2 className="text-3xl font-extrabold tracking-tight text-neutral-900">
+                  About Me
+                </h2>
                 <p className="text-sm text-neutral-500">
                   A bit about my background, passion, and technical skills.
                 </p>
@@ -280,10 +324,16 @@ export default function App() {
                   </h3>
                   <div className="text-sm text-neutral-600 leading-relaxed space-y-4">
                     <p>
-                      Currently, I am focused on improving my programming skills, learning new technologies, and developing websites and applications. My career goal is to become a professional software developer and build useful, innovative systems.
+                      Currently, I am focused on improving my programming
+                      skills, learning new technologies, and developing websites
+                      and applications. My career goal is to become a
+                      professional software developer and build useful, innovative
+                      systems.
                     </p>
                     <p>
-                      Aside from my studies, I am currently focused on learning programming and improving my skills in web development. My goal is to become a successful software developer.
+                      Aside from my studies, I am currently focused on learning
+                      programming and improving my skills in web development. My
+                      goal is to become a successful software developer.
                     </p>
                   </div>
                 </div>
@@ -292,7 +342,9 @@ export default function App() {
                 <div className="rounded-2xl border border-neutral-200/80 bg-white p-6 shadow-xs hover:border-neutral-300 transition-colors space-y-3">
                   <div className="flex items-center gap-2">
                     <Code2 className="h-5 w-5 text-neutral-900" />
-                    <h3 className="text-lg font-bold text-neutral-900">Skills & Technologies</h3>
+                    <h3 className="text-lg font-bold text-neutral-900">
+                      Skills &amp; Technologies
+                    </h3>
                   </div>
                   <div className="flex flex-wrap gap-2 pt-1">
                     {SKILLS.map((skill, index) => (
@@ -309,11 +361,13 @@ export default function App() {
             </section>
           )}
 
-          {/* ================= TAB 3: EDUCATION ================= */}
+          {/* TAB 3: EDUCATION */}
           {activeTab === "education" && (
             <section className="space-y-6">
               <div className="space-y-1 border-b border-neutral-100 pb-4">
-                <h2 className="text-3xl font-extrabold tracking-tight text-neutral-900">Education</h2>
+                <h2 className="text-3xl font-extrabold tracking-tight text-neutral-900">
+                  Education
+                </h2>
                 <p className="text-sm text-neutral-500">
                   Academic background and formal training.
                 </p>
@@ -331,11 +385,12 @@ export default function App() {
                           <GraduationCap className="h-5 w-5" />
                         </div>
                         <div>
-                          <h3 className="text-lg font-bold text-neutral-900">{item.degree}</h3>
-                          <p className="text-xs text-neutral-500 font-medium">{item.institution}</p>
-                          {item.subtitle && (
-                            <p className="text-xs text-neutral-700 font-medium mt-0.5">{item.subtitle}</p>
-                          )}
+                          <h3 className="text-lg font-bold text-neutral-900">
+                            {item.degree}
+                          </h3>
+                          <p className="text-xs text-neutral-500 font-medium">
+                            {item.institution}
+                          </p>
                         </div>
                       </div>
                       <span className="inline-block text-xs font-semibold px-3 py-1 rounded-full bg-neutral-100 text-neutral-700 border border-neutral-200 self-start sm:self-auto">
@@ -349,14 +404,14 @@ export default function App() {
                       </p>
                     )}
 
-                    {item.highlights && item.highlights.length > 0 && (
+                    {item.achievements && item.achievements.length > 0 && (
                       <div className="pt-2 sm:pl-[48px] border-t border-neutral-100">
                         <div className="flex items-center gap-1.5 text-xs font-semibold text-neutral-900 mb-1.5">
                           <Bookmark className="h-3.5 w-3.5 text-neutral-700" />
                           <span>Key Highlights</span>
                         </div>
                         <ul className="flex flex-wrap gap-2 text-xs text-neutral-600">
-                          {item.highlights.map((h, i) => (
+                          {item.achievements.map((h, i) => (
                             <li
                               key={i}
                               className="flex items-center gap-1 bg-neutral-50 border border-neutral-200 px-2.5 py-1 rounded-lg text-neutral-700"
@@ -374,11 +429,13 @@ export default function App() {
             </section>
           )}
 
-          {/* ================= TAB 4: HOBBIES ================= */}
+          {/* TAB 4: HOBBIES */}
           {activeTab === "hobbies" && (
             <section className="space-y-6">
               <div className="space-y-1 border-b border-neutral-100 pb-4">
-                <h2 className="text-3xl font-extrabold tracking-tight text-neutral-900">Hobbies & Interests</h2>
+                <h2 className="text-3xl font-extrabold tracking-tight text-neutral-900">
+                  Hobbies &amp; Interests
+                </h2>
                 <p className="text-sm text-neutral-500">
                   What I enjoy doing outside of coding.
                 </p>
@@ -396,7 +453,9 @@ export default function App() {
                         <Icon className="h-5 w-5" />
                       </div>
                       <div className="space-y-1">
-                        <h3 className="text-base font-bold text-neutral-900">{hobby.title}</h3>
+                        <h3 className="text-base font-bold text-neutral-900">
+                          {hobby.title}
+                        </h3>
                         <p className="text-xs text-neutral-500 leading-relaxed">
                           {hobby.description}
                         </p>
@@ -408,13 +467,16 @@ export default function App() {
             </section>
           )}
 
-          {/* ================= TAB 5: CONTACT ================= */}
+          {/* TAB 5: CONTACT */}
           {activeTab === "contact" && (
             <section className="space-y-6">
               <div className="space-y-1 border-b border-neutral-100 pb-4">
-                <h2 className="text-3xl font-extrabold tracking-tight text-neutral-900">Contact Me</h2>
+                <h2 className="text-3xl font-extrabold tracking-tight text-neutral-900">
+                  Contact Me
+                </h2>
                 <p className="text-sm text-neutral-500">
-                  Have a question, collaboration idea, or project in mind? Reach out below!
+                  Have a question, collaboration idea, or project in mind?
+                  Reach out below!
                 </p>
               </div>
 
@@ -427,14 +489,19 @@ export default function App() {
                         <Mail className="h-4 w-4" />
                       </div>
                       <div>
-                        <p className="text-[10px] text-neutral-400 font-semibold uppercase tracking-wider">Email</p>
+                        <p className="text-[10px] text-neutral-400 font-semibold uppercase tracking-wider">
+                          Email
+                        </p>
                         <p className="text-xs font-bold text-neutral-900 truncate max-w-[170px]">
                           aabustamante@gbox.ncf.edu.ph
                         </p>
                       </div>
                     </div>
                     <button
-                      onClick={() => handleCopy("aabustamante@gbox.ncf.edu.ph", "email")}
+                      type="button"
+                      onClick={() =>
+                        handleCopy("aabustamante@gbox.ncf.edu.ph", "email")
+                      }
                       className="p-1.5 text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition-colors cursor-pointer"
                       title="Copy email"
                     >
@@ -452,12 +519,17 @@ export default function App() {
                         <Phone className="h-4 w-4" />
                       </div>
                       <div>
-                        <p className="text-[10px] text-neutral-400 font-semibold uppercase tracking-wider">Phone</p>
-                        <p className="text-xs font-bold text-neutral-900">+639 (810) 441-731</p>
+                        <p className="text-[10px] text-neutral-400 font-semibold uppercase tracking-wider">
+                          Phone
+                        </p>
+                        <p className="text-xs font-bold text-neutral-900">
+                          +639 (810) 441-731
+                        </p>
                       </div>
                     </div>
                     <button
-                      onClick={() => handleCopy("+639 (635) 002-193", "phone")}
+                      type="button"
+                      onClick={() => handleCopy("+639 (810) 441-731", "phone")}
                       className="p-1.5 text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition-colors cursor-pointer"
                       title="Copy phone"
                     >
@@ -474,7 +546,9 @@ export default function App() {
                       <MapPin className="h-4 w-4" />
                     </div>
                     <div>
-                      <p className="text-[10px] text-neutral-400 font-semibold uppercase tracking-wider">Location</p>
+                      <p className="text-[10px] text-neutral-400 font-semibold uppercase tracking-wider">
+                        Location
+                      </p>
                       <p className="text-xs font-bold text-neutral-900 leading-snug">
                         Cagliliog, Tinambac, Camarines Sur, Philippines
                       </p>
@@ -485,9 +559,12 @@ export default function App() {
                 {/* Right Column - Interactive Form Card */}
                 <div className="md:col-span-2 rounded-2xl border border-neutral-200/80 bg-white p-6 shadow-xs">
                   <div className="pb-4 mb-4 border-b border-neutral-100">
-                    <h3 className="text-base font-bold text-neutral-900">Send a Message</h3>
+                    <h3 className="text-base font-bold text-neutral-900">
+                      Send a Message
+                    </h3>
                     <p className="text-xs text-neutral-500 mt-0.5">
-                      Fill out the form below and I'll get back to you soon.
+                      Fill out the form below and I&apos;ll get back to you
+                      soon.
                     </p>
                   </div>
 
@@ -513,7 +590,9 @@ export default function App() {
                         <input
                           type="text"
                           value={formData.name}
-                          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                          onChange={(e) =>
+                            setFormData({ ...formData, name: e.target.value })
+                          }
                           placeholder="Your full name"
                           className="w-full px-3.5 py-2 text-xs rounded-xl border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-neutral-900 transition-all"
                           required
@@ -527,8 +606,10 @@ export default function App() {
                         <input
                           type="email"
                           value={formData.email}
-                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                          placeholder="jpconer@gbox.ncf.edu.ph"
+                          onChange={(e) =>
+                            setFormData({ ...formData, email: e.target.value })
+                          }
+                          placeholder="aabustamante@gbox.ncf.edu.ph"
                           className="w-full px-3.5 py-2 text-xs rounded-xl border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-neutral-900 transition-all"
                           required
                         />
@@ -542,7 +623,9 @@ export default function App() {
                       <input
                         type="text"
                         value={formData.subject}
-                        onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, subject: e.target.value })
+                        }
                         placeholder="Project Inquiry / Hello"
                         className="w-full px-3.5 py-2 text-xs rounded-xl border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-neutral-900 transition-all"
                       />
@@ -555,7 +638,9 @@ export default function App() {
                       <textarea
                         rows={4}
                         value={formData.message}
-                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, message: e.target.value })
+                        }
                         placeholder="Your message here..."
                         className="w-full px-3.5 py-2 text-xs rounded-xl border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-neutral-900 transition-all resize-none"
                         required
@@ -568,7 +653,9 @@ export default function App() {
                       className="bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl text-xs font-semibold px-5 py-2.5 flex items-center gap-2 transition-all disabled:opacity-50 cursor-pointer"
                     >
                       <Send className="h-3.5 w-3.5" />
-                      <span>{isSubmitting ? "Sending..." : "Send Message"}</span>
+                      <span>
+                        {isSubmitting ? "Sending..." : "Send Message"}
+                      </span>
                     </button>
                   </form>
                 </div>
@@ -582,7 +669,9 @@ export default function App() {
       <footer className="border-t border-neutral-200 bg-neutral-50 py-6 text-center text-xs text-neutral-500">
         <div className="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
           <p>© {new Date().getFullYear()} Aaron Bustamante. All rights reserved.</p>
-          <p className="text-neutral-400">Built with Next.js, Tailwind CSS & Shadcn UI design.</p>
+          <p className="text-neutral-400">
+            Built with Next.js, Tailwind CSS &amp; Shadcn UI design.
+          </p>
         </div>
       </footer>
     </div>
