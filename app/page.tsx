@@ -1,4 +1,3 @@
-
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -13,7 +12,6 @@ import {
 import {
   NavigationMenu,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
 
@@ -23,12 +21,12 @@ import {
   Camera,
   Music,
   BookOpen,
-  Compass,
   ArrowRight,
   Code2,
   Sparkles,
   CheckCircle2,
   Mail,
+  Plane,
 } from "lucide-react";
 
 // Navigation Bar
@@ -48,16 +46,16 @@ function Navbar() {
           <NavigationMenuList className="flex flex-wrap justify-center gap-2">
             {navItems.map((item) => (
               <NavigationMenuItem key={item.name}>
-                <NavigationMenuLink
-                  asChild
+                <Link
+                  href={item.href}
                   className={`rounded-full px-4 py-2 text-sm font-medium transition-all ${
                     item.active
                       ? "bg-black text-white hover:bg-black/90 hover:text-white"
                       : "text-foreground hover:bg-muted"
                   }`}
                 >
-                  <Link href={item.href}>{item.name}</Link>
-                </NavigationMenuLink>
+                  {item.name}
+                </Link>
               </NavigationMenuItem>
             ))}
           </NavigationMenuList>
