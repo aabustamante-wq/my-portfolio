@@ -145,7 +145,7 @@ export default function Home() {
         id="home"
         className="min-h-screen bg-background text-foreground px-4 py-12 md:px-8 lg:px-12 max-w-5xl mx-auto space-y-20 scroll-smooth"
       >
-        {/* Hero Section */}
+        {/* About Section */}
         <section
           id="about"
           className="relative space-y-6 pt-6 pb-4 scroll-mt-28"
@@ -175,53 +175,37 @@ export default function Home() {
             become a professional software developer.
           </p>
 
+          {/* Integrated Skills & Technologies */}
+          <div className="space-y-3 pt-2">
+            <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
+              <Code2 className="h-4 w-4 text-primary" />
+              <span>Skills & Technologies</span>
+            </div>
+            <div className="flex flex-wrap gap-2.5">
+              {skills.map((skill, index) => (
+                <Badge
+                  key={index}
+                  variant="secondary"
+                  className="px-3.5 py-1.5 text-sm font-medium rounded-xl hover:bg-primary hover:text-primary-foreground transition-all cursor-default"
+                >
+                  {skill}
+                </Badge>
+              ))}
+            </div>
+          </div>
+
           <div className="flex flex-wrap items-center gap-4 pt-2">
             <Button
               asChild
               size="lg"
               className="rounded-full shadow-md hover:shadow-lg transition-all"
             >
-              <Link href="#skills">
-                Explore Skills
+              <Link href="#contact">
+                Contact Me
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
-
-            <Button
-              variant="outline"
-              size="lg"
-              asChild
-              className="rounded-full"
-            >
-              <Link href="#education">View Education</Link>
-            </Button>
           </div>
-        </section>
-
-        {/* Skills Section */}
-        <section id="skills" className="space-y-6 scroll-mt-28">
-          <div className="flex items-center gap-2">
-            <Code2 className="h-6 w-6 text-primary" />
-            <h2 className="text-2xl font-bold tracking-tight">
-              Skills & Technologies
-            </h2>
-          </div>
-
-          <Card className="rounded-2xl border bg-card/50 backdrop-blur-sm p-6 shadow-sm">
-            <CardContent className="p-0">
-              <div className="flex flex-wrap gap-2.5">
-                {skills.map((skill, index) => (
-                  <Badge
-                    key={index}
-                    variant="secondary"
-                    className="px-4 py-2 text-sm font-medium rounded-xl hover:bg-primary hover:text-primary-foreground transition-all cursor-default"
-                  >
-                    {skill}
-                  </Badge>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
         </section>
 
         {/* Education Section */}
