@@ -32,7 +32,7 @@ import {
 // Navigation Bar
 function Navbar() {
   const navItems = [
-    { name: "Home", href: "#home", active: true },
+    { name: "Home", href: "#home" },
     { name: "About", href: "#about" },
     { name: "Education", href: "#education" },
     { name: "Hobbies", href: "#hobbies" },
@@ -48,11 +48,7 @@ function Navbar() {
               <NavigationMenuItem key={item.name}>
                 <Link
                   href={item.href}
-                  className={`rounded-full px-4 py-2 text-sm font-medium transition-all ${
-                    item.active
-                      ? "bg-black text-white hover:bg-black/90 hover:text-white"
-                      : "text-foreground hover:bg-muted"
-                  }`}
+                  className="rounded-full px-4 py-2 text-sm font-medium transition-all text-foreground hover:bg-muted"
                 >
                   {item.name}
                 </Link>
@@ -65,7 +61,7 @@ function Navbar() {
   );
 }
 
-// Skills
+// Data Sets
 const skills = [
   "Networking Fundamentals",
   "Hardware Troubleshooting",
@@ -75,7 +71,6 @@ const skills = [
   "Database Management",
 ];
 
-// Education
 const educationList = [
   {
     degree: "BS in Information Technology",
@@ -107,31 +102,26 @@ const educationList = [
   },
 ];
 
-// Hobbies
 const hobbies = [
   {
     title: "Photography",
     icon: Camera,
-    description:
-      "Capturing street landscapes and urban architecture.",
+    description: "Capturing street landscapes and urban architecture.",
   },
   {
     title: "Reading",
     icon: BookOpen,
-    description:
-      "Enjoy reading books to expand perspectives and refresh the mind.",
+    description: "Enjoy reading books to expand perspectives and refresh the mind.",
   },
   {
     title: "Music & Guitar",
     icon: Music,
-    description:
-      "Playing acoustic guitar and singing as a member of the church choir.",
+    description: "Playing acoustic guitar and singing as a member of the church choir.",
   },
   {
     title: "Travel & Hiking",
     icon: Plane,
-    description:
-      "Exploring national parks, hiking trails, and new places.",
+    description: "Exploring national parks, hiking trails, and new places.",
   },
 ];
 
@@ -141,15 +131,9 @@ export default function Home() {
       {/* Navigation */}
       <Navbar />
 
-      <main
-        id="home"
-        className="min-h-screen bg-background text-foreground px-4 py-12 md:px-8 lg:px-12 max-w-5xl mx-auto space-y-20 scroll-smooth"
-      >
-        {/* About Section */}
-        <section
-          id="about"
-          className="relative space-y-6 pt-6 pb-4 scroll-mt-28"
-        >
+      <main className="min-h-screen bg-background text-foreground px-4 py-12 md:px-8 lg:px-12 max-w-5xl mx-auto space-y-24 scroll-smooth">
+        {/* 1. HOME SECTION (Welcome Only) */}
+        <section id="home" className="relative space-y-6 pt-6 pb-4 scroll-mt-28">
           <div className="absolute -top-10 -left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl -z-10 pointer-events-none" />
 
           <Badge
@@ -161,60 +145,96 @@ export default function Home() {
           </Badge>
 
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight">
+            Welcome to My Portfolio!
+          </h1>
+
+          <h2 className="text-2xl sm:text-3xl font-bold text-muted-foreground">
             Hi, I'm{" "}
             <span className="text-primary bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
               Aaron Bustamante
             </span>{" "}
             👋
-          </h1>
+          </h2>
 
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed">
-            Welcome to my personal portfolio! I am currently studying at
-            Naga College Foundation. I build practical web applications,
-            study software development, and refine my coding skills to
+            Welcome to my personal portfolio! I am currently studying IT at Naga College Foundation.
+            I build practical web applications, study software development, and refine my coding skills to
             become a professional software developer.
           </p>
 
-          {/* Integrated Skills & Technologies */}
-          <div className="space-y-3 pt-2">
-            <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
-              <Code2 className="h-4 w-4 text-primary" />
-              <span>Skills & Technologies</span>
-            </div>
-            <div className="flex flex-wrap gap-2.5">
-              {skills.map((skill, index) => (
-                <Badge
-                  key={index}
-                  variant="secondary"
-                  className="px-3.5 py-1.5 text-sm font-medium rounded-xl hover:bg-primary hover:text-primary-foreground transition-all cursor-default"
-                >
-                  {skill}
-                </Badge>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-4 pt-2">
+          <div className="pt-2">
             <Button
               asChild
               size="lg"
               className="rounded-full shadow-md hover:shadow-lg transition-all"
             >
-              <Link href="#contact">
-                Contact Me
+              <Link href="#about">
+                About Me
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
           </div>
         </section>
 
-        {/* Education Section */}
+        {/* 2. ABOUT SECTION (About Me & Skills Only) */}
+        <section id="about" className="space-y-6 scroll-mt-28">
+          <div className="space-y-1">
+            <h2 className="text-3xl font-bold tracking-tight">About Me</h2>
+            <p className="text-sm text-muted-foreground">
+              A bit about my background, passion, and technical skills.
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            {/* My Story Card */}
+            <Card className="rounded-2xl border bg-card p-6 shadow-sm">
+              <CardHeader className="p-0 pb-3">
+                <CardTitle className="text-xl font-bold">My Story</CardTitle>
+              </CardHeader>
+              <CardContent className="p-0 text-muted-foreground leading-relaxed">
+                <p>
+                  I am an Information Technology student passionate about learning new programming languages,
+                  building modern web applications, and developing practical technology solutions.
+                  I enjoy solving problems through code and continuously improving my technical literacy.
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* Skills Card */}
+            <Card className="rounded-2xl border bg-card p-6 shadow-sm">
+              <CardHeader className="p-0 pb-3">
+                <div className="flex items-center gap-2">
+                  <Code2 className="h-5 w-5 text-primary" />
+                  <CardTitle className="text-xl font-bold">Skills & Technologies</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent className="p-0">
+                <div className="flex flex-wrap gap-2.5">
+                  {skills.map((skill, index) => (
+                    <Badge
+                      key={index}
+                      variant="secondary"
+                      className="px-3.5 py-1.5 text-sm font-medium rounded-xl hover:bg-primary hover:text-primary-foreground transition-all cursor-default"
+                    >
+                      {skill}
+                    </Badge>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        {/* 3. EDUCATION SECTION (Education Only) */}
         <section id="education" className="space-y-6 scroll-mt-28">
-          <div className="flex items-center gap-2">
-            <GraduationCap className="h-6 w-6 text-primary" />
-            <h2 className="text-2xl font-bold tracking-tight">
-              Education
-            </h2>
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <GraduationCap className="h-6 w-6 text-primary" />
+              <h2 className="text-3xl font-bold tracking-tight">Education</h2>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              Academic background and formal training.
+            </p>
           </div>
 
           <div className="space-y-4">
@@ -275,13 +295,18 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Hobbies Section */}
+        {/* 4. HOBBIES SECTION (Hobbies Only) */}
         <section id="hobbies" className="space-y-6 scroll-mt-28">
-          <div className="flex items-center gap-2">
-            <Sparkles className="h-6 w-6 text-primary" />
-            <h2 className="text-2xl font-bold tracking-tight">
-              Hobbies & Interests
-            </h2>
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <Sparkles className="h-6 w-6 text-primary" />
+              <h2 className="text-3xl font-bold tracking-tight">
+                Hobbies & Interests
+              </h2>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              What I enjoy doing outside of coding.
+            </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -314,13 +339,18 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Contact Section */}
+        {/* 5. CONTACT SECTION (Contact Only) */}
         <section id="contact" className="space-y-6 scroll-mt-28 pb-12">
-          <div className="flex items-center gap-2">
-            <Mail className="h-6 w-6 text-primary" />
-            <h2 className="text-2xl font-bold tracking-tight">
-              Contact Me
-            </h2>
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <Mail className="h-6 w-6 text-primary" />
+              <h2 className="text-3xl font-bold tracking-tight">
+                Contact Me
+              </h2>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              Reach out for collaboration, opportunities, or questions!
+            </p>
           </div>
 
           <Card className="rounded-2xl">
